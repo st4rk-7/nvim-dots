@@ -9,12 +9,18 @@ vim.keymap.set('c', '<space>', function()
 end, { expr = true })
 
 vim.keymap.set('n', '<leader>p', function()
+  local make_command
+  if vim.fn.filereadable 'Makefile' == 1 then
+    make_command = 'make'
+  else
+    make_command = 'cd .. && make'
+  end
   vim.cmd 'vsplit'
   vim.cmd 'term'
   vim.cmd 'startinsert'
   vim.defer_fn(function()
-    vim.api.nvim_chan_send(vim.b.terminal_job_id, 'make\n')
-  end, 200)
+    vim.api.nvim_chan_send(vim.b.terminal_job_id, make_command .. '\n')
+  end, 500)
   vim.wo.number = false
   vim.wo.relativenumber = false
 end, { noremap = true, silent = true })
@@ -48,7 +54,7 @@ vim.keymap.set('n', '<leader>cg', ':setlocal spell! spelllang=en_us<CR>', { desc
 vim.keymap.set('n', '<leader>cp', ':!compiler "%:p"<CR>', { desc = 'run (C)om[P]iler script' })
 vim.keymap.set('n', '<leader>cx', '<cmd>!chmod +x %<CR>', { desc = 'chmod +x' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-vim.keymap.set('n', '<leader>sa', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace All' })
+vim.keymap.set('n', '<leader>sa', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gIc<Left><Left><Left><Left>]], { desc = 'Replace All' })
 vim.keymap.set('n', 'J', 'mzJ`z')
 vim.keymap.set('n', 'N', 'Nzzzv')
 vim.keymap.set('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })

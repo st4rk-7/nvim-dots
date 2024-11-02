@@ -1,9 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.opt.background = 'light'
-vim.cmd.colorscheme 'default'
-
 vim.g.have_nerd_font = true
 
 require 'options'

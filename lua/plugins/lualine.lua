@@ -1,7 +1,6 @@
 return {
   'nvim-lualine/lualine.nvim',
-  lazy = false,
-  -- event = "VeryLazy",
+  event = 'VeryLazy',
   config = function()
     local function get_colors()
       local colorscheme = vim.g.colors_name

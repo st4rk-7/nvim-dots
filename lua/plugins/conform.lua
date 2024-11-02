@@ -35,6 +35,7 @@ return {
         lua = { 'stylua' },
         markdown = { 'prettierd' },
         sh = { 'shfmt' },
+        typst = { 'typstle' },
         python = { 'ruff_organize_imports', 'ruff_fix', 'ruff_format' },
         -- Conform can also run multiple formatters sequentially
         -- python = { 'isort', 'black' },

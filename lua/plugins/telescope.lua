@@ -12,8 +12,21 @@ return {
           return vim.fn.executable 'make' == 1
         end,
       },
+      {
+        'danielfalk/smart-open.nvim',
+        branch = '0.2.x',
+        dependencies = {
+          'kkharji/sqlite.lua',
+        },
+      },
       { 'nvim-telescope/telescope-ui-select.nvim' },
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      {
+        'debugloop/telescope-undo.nvim',
+        keys = {
+          { '<leader>uu', '<cmd>Telescope undo<cr>', desc = 'undo history' },
+        },
+      },
     },
     config = function()
       require('telescope').setup {
@@ -25,6 +38,7 @@ return {
       }
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'smart_open')
 
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
@@ -33,6 +47,7 @@ return {
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+      vim.keymap.set('n', '\\', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
@@ -51,6 +66,14 @@ return {
           prompt_title = 'Live Grep in Open Files',
         }
       end, { desc = '[S]earch [/] in Open Files' })
+
+      vim.keymap.set({ 'n', 'i' }, '<C-\\>', function()
+        if vim.bo.filetype == 'TelescopePrompt' then
+          require('telescope.actions').close(vim.api.nvim_get_current_buf())
+        else
+          vim.cmd 'Telescope smart_open'
+        end
+      end, { desc = 'Smart Open' })
 
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
