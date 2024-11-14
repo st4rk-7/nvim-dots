@@ -5,6 +5,7 @@ return {
   },
   opts = {
     file_manager = 'lf',
+    replace_netrw = true,
     ui = {
       border = 'rounded',
       height = 0.5,
