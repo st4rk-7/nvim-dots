@@ -8,24 +8,34 @@ vim.keymap.set('c', '<space>', function()
   end
 end, { expr = true })
 
-vim.keymap.set('n', '<leader>p', function()
-  local make_command
-  if vim.fn.filereadable 'Makefile' == 1 then
-    make_command = 'make'
-  else
-    make_command = 'cd .. && make'
+local function open_terminal(split_type, size, command)
+  vim.cmd 'write'
+  if split_type == 'vsplit' then
+    vim.cmd(size .. 'vsplit')
+  elseif split_type == 'split' then
+    vim.cmd(size .. 'split')
   end
-  vim.cmd 'vsplit'
-  vim.cmd 'term'
+  vim.cmd 'terminal'
   vim.cmd 'startinsert'
-  vim.defer_fn(function()
-    vim.api.nvim_chan_send(vim.b.terminal_job_id, make_command .. '\n')
-  end, 500)
   vim.wo.number = false
   vim.wo.relativenumber = false
-end, { noremap = true, silent = true })
+  if command then
+    vim.defer_fn(function()
+      vim.api.nvim_chan_send(vim.b.terminal_job_id, command .. '\n')
+    end, 600)
+  end
+end
 
-vim.keymap.set('x', 'p', 'p:let @+=@0<CR>:let @"=@0<CR>', { silent = true })
+vim.keymap.set('n', '<leader>t', function()
+  open_terminal('vsplit', 60)
+end, { silent = true, desc = 'Vertical terminal' })
+vim.keymap.set('n', '<leader>T', function()
+  open_terminal('split', 10)
+end, { silent = true, desc = 'Horizontal terminal' })
+vim.keymap.set('n', '<leader>p', function()
+  open_terminal('vsplit', 65, 'compiler ' .. vim.fn.expand '%:p')
+end, { silent = true, desc = 'Run compiler script' })
+
 vim.keymap.set('i', '<A-Down>', '<C-\\><C-N><C-w>j')
 vim.keymap.set('i', '<A-Left>', '<C-\\><C-N><C-w>h')
 vim.keymap.set('i', '<A-Right>', '<C-\\><C-N><C-w>l')
@@ -51,7 +61,6 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<leader>cg', ':setlocal spell! spelllang=en_us<CR>', { desc = 'Spellcheck', silent = true })
-vim.keymap.set('n', '<leader>cp', ':!compiler "%:p"<CR>', { desc = 'run (C)om[P]iler script' })
 vim.keymap.set('n', '<leader>cx', '<cmd>!chmod +x %<CR>', { desc = 'chmod +x' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('n', '<leader>sa', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gIc<Left><Left><Left><Left>]], { desc = 'Replace All' })
@@ -72,6 +81,7 @@ vim.keymap.set('v', '>', '>gv^')
 vim.keymap.set('x', '<leader>h', [["ay:!dmenuhandler '<C-r>a'<cr>]])
 vim.keymap.set('x', 'J', ":m '>+1<cr>gv=gv")
 vim.keymap.set('x', 'K', ":m '<-2<cr>gv=gv")
+vim.keymap.set('x', 'p', 'p:let @+=@0<CR>:let @"=@0<CR>', { silent = true })
 vim.keymap.set({ 'x', 'v', 'n' }, '<A-j>', ':m .+1<cr>==')
 vim.keymap.set({ 'x', 'v', 'n' }, '<A-k>', ':m .-2<cr>==')
 

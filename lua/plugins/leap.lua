@@ -20,6 +20,8 @@ return {
     { 's', mode = { 'n', 'x', 'o' }, desc = 'Leap Forward to' },
     { 'S', mode = { 'n', 'x', 'o' }, desc = 'Leap Backward to' },
     { 'gs', mode = { 'n', 'x', 'o' }, desc = 'Leap from Windows' },
+    { 'ga', mode = { 'n', 'x', 'o' }, desc = 'Leap treesitter' },
+    { 'gA', mode = { 'n', 'x', 'o' }, desc = 'Leap treesitter linewise' },
   },
   config = function(_, opts)
     local leap = require 'leap'

@@ -18,7 +18,9 @@ vim.api.nvim_create_autocmd('BufEnter', {
 -- [[ Update file on Focus ]]
 vim.api.nvim_create_autocmd('FocusGained', {
   callback = function()
-    vim.cmd 'checktime'
+    if vim.o.buftype ~= 'nofile' then
+      vim.cmd 'checktime'
+    end
   end,
   group = vim.api.nvim_create_augroup('UpdateOnFocus', { clear = true }),
 })
@@ -61,10 +63,58 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
   pattern = vim.fn.resolve(vim.fn.expand '~/.config/x11/xresources'),
   callback = function()
-    -- cmd([[!xrdb % ; killall -USR1 st ; renew-dwm ; notify-send " - xresources reloaded"]])
     vim.cmd [[!xrdb % ; killall -USR1 st ; renew-dwm]]
   end,
   group = vim.api.nvim_create_augroup('ReloadXresources', { clear = true }),
+})
+
+-- [[ close some filetypes with <q> ]]
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = {
+    'PlenaryTestPopup',
+    'checkhealth',
+    'dbout',
+    'gitsigns-blame',
+    'help',
+    'lspinfo',
+    'snacks_win',
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.schedule(function()
+      vim.keymap.set('n', 'q', function()
+        vim.cmd 'close'
+        pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
+      end, {
+        buffer = event.buf,
+        silent = true,
+        desc = 'Quit buffer',
+      })
+    end)
+  end,
+  group = vim.api.nvim_create_augroup('close_with_q', { clear = true }),
+})
+
+-- [[ Wrap and check for spell in text filetypes ]]
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'text', 'plaintex', 'typst', 'gitcommit', 'markdown' },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.spell = true
+  end,
+  group = vim.api.nvim_create_augroup('wrap_spell', { clear = true }),
+})
+
+-- [[ Auto create intermediate dir when saving a file ]]
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+  callback = function(event)
+    if event.match:match '^%w%w+:[\\/][\\/]' then
+      return
+    end
+    local file = vim.uv.fs_realpath(event.match) or event.match
+    vim.fn.mkdir(vim.fn.fnamemodify(file, ':p:h'), 'p')
+  end,
+  group = vim.api.nvim_create_augroup('auto_create_dir', { clear = true }),
 })
 
 -- [[ Restore cursor shape on exit]]
@@ -77,23 +127,23 @@ vim.api.nvim_create_autocmd({ 'VimLeave' }, {
 })
 
 -- [[ Recompile suckless software on write and show notification ]]
-local function recompile(path)
-  vim.api.nvim_create_augroup('RecompileGroup_' .. path, { clear = true })
-  vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-    pattern = vim.fn.resolve(vim.fn.expand(path)),
-    callback = function()
-      local dir = vim.fn.fnamemodify(path, ':h')
-      local shell_cmd = string.format("cd %s && sudo make install && renew-dwm && notify-send '  refresh complete'", dir)
-      vim.cmd('!' .. shell_cmd)
-    end,
-  })
-end
-
-recompile '~/.config/suckless/dwm/config.h'
-recompile '~/.config/suckless/dmenu/config.h'
-recompile '~/.config/suckless/st/config.h'
-recompile '~/.config/suckless/dwmblocks/config.h'
-recompile '~/.config/suckless/slock/config.h'
+-- local function recompile(path)
+--   vim.api.nvim_create_augroup('RecompileGroup_' .. path, { clear = true })
+--   vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+--     pattern = vim.fn.resolve(vim.fn.expand(path)),
+--     callback = function()
+--       local dir = vim.fn.fnamemodify(path, ':h')
+--       local shell_cmd = string.format("cd %s && sudo make install && renew-dwm && notify-send '  refresh complete'", dir)
+--       vim.cmd('!' .. shell_cmd)
+--     end,
+--   })
+-- end
+--
+-- recompile '~/.config/suckless/dwm/config.h'
+-- recompile '~/.config/suckless/dmenu/config.h'
+-- recompile '~/.config/suckless/st/config.h'
+-- recompile '~/.config/suckless/dwmblocks/config.h'
+-- recompile '~/.config/suckless/slock/config.h'
 
 -- [[ Compile LaTeX using tectonic on write and open PDF with zathura ]]
 -- vim.api.nvim_create_autocmd({ "BufWritePost" }, {

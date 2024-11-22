@@ -42,7 +42,7 @@ vim.opt.timeoutlen = 300
 vim.opt.undofile = true
 vim.opt.updatetime = 250
 vim.opt.virtualedit = 'block'
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.schedule(function()
   vim.opt.clipboard = 'unnamedplus'
 end)
