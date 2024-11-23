@@ -46,7 +46,7 @@ return {
       options = {
         component_separators = '',
         section_separators = '   ',
-        disabled_filetypes = { 'help', 'lazy', 'mason', 'fzf', 'lspinfo', 'alpha' },
+        disabled_filetypes = { 'help', 'lazy', 'mason', 'fzf', 'lspinfo', 'alpha', 'snacks_dashboard' },
         theme = {
           normal = { c = { fg = colors.fg, bg = colors.bg } },
           inactive = { c = { fg = colors.fg, bg = colors.bg } },

@@ -71,7 +71,7 @@ return {
         if vim.bo.filetype == 'TelescopePrompt' then
           require('telescope.actions').close(vim.api.nvim_get_current_buf())
         else
-          vim.cmd 'Telescope smart_open'
+          require("telescope").extensions.smart_open.smart_open()
         end
       end, { desc = 'Smart Open' })
 
