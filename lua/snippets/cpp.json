@@ -3,6 +3,7 @@
     "prefix": "hello",
     "body": [
       "#include <iostream>",
+      "using namespace std;",
       "",
       "int main () {",
       "\t$1",
