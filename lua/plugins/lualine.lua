@@ -17,6 +17,13 @@ return {
         --     fg = '#9B9EA4',
         --     -- active_buf = "#E0E2EA",
         --   }
+      elseif colorscheme == 'modus' then
+        local colors = require('modus-themes.colors').setup()
+        return {
+          bg = colors.none,
+          fg = colors.comment,
+          -- active_buf = colors.fg,
+        }
       else
         return {
           bg = '',
@@ -28,19 +35,19 @@ return {
 
     local colors = get_colors()
 
-    local conditions = {
-      buffer_not_empty = function()
-        return vim.fn.empty(vim.fn.expand '%:t') ~= 1
-      end,
-      hide_in_width = function()
-        return vim.fn.winwidth(0) > 80
-      end,
-      check_git_workspace = function()
-        local filepath = vim.fn.expand '%:p:h'
-        local gitdir = vim.fn.finddir('.git', filepath .. ';')
-        return gitdir and #gitdir > 0 and #gitdir < #filepath
-      end,
-    }
+    -- local conditions = {
+    --   buffer_not_empty = function()
+    --     return vim.fn.empty(vim.fn.expand '%:t') ~= 1
+    --   end,
+    --   hide_in_width = function()
+    --     return vim.fn.winwidth(0) > 80
+    --   end,
+    --   check_git_workspace = function()
+    --     local filepath = vim.fn.expand '%:p:h'
+    --     local gitdir = vim.fn.finddir('.git', filepath .. ';')
+    --     return gitdir and #gitdir > 0 and #gitdir < #filepath
+    --   end,
+    -- }
 
     local config = {
       options = {
