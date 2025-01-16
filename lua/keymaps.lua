@@ -1,88 +1,190 @@
--- [[ General Keymaps ]]
-
-vim.keymap.set('c', '<space>', function()
-  if vim.fn.getcmdtype() == '?' or vim.fn.getcmdtype() == '/' then
-    return '.*'
+vim.keymap.set("c", "<space>", function()
+  if vim.fn.getcmdtype() == "?" or vim.fn.getcmdtype() == "/" then
+    return ".*"
   else
-    return ' '
+    return " "
   end
 end, { expr = true })
 
-local function open_terminal(split_type, size, command)
-  vim.cmd 'write'
-  if split_type == 'vsplit' then
-    vim.cmd(size .. 'vsplit')
-  elseif split_type == 'split' then
-    vim.cmd(size .. 'split')
+vim.keymap.set("n", "--", function()
+  vim.lsp.buf.format()
+  vim.cmd "write"
+end, { silent = true, desc = "LSP Format" })
+vim.keymap.set("n", "-n", vim.lsp.buf.rename, { desc = "LSP Rename" })
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+vim.keymap.set("n", "<leader>s", [[:%s/<C-r><C-w>//gIc<Left><Left><Left><Left>]], { desc = "Replace Word" })
+vim.keymap.set("x", "<leader>s", [[:s///gIc<Left><Left><Left><Left><Left>]], { desc = "Replace in Visual Selection" })
+vim.keymap.set("v", "<", "<gv^")
+vim.keymap.set("v", ">", ">gv^")
+vim.keymap.set("x", "<leader>h", [["ay:!dmenuhandler '<C-r>a'<cr>]])
+
+vim.keymap.set({ "n", "x" }, "j", [[v:count == 0 ? 'gj' : 'j']], { expr = true })
+vim.keymap.set({ "n", "x" }, "k", [[v:count == 0 ? 'gk' : 'k']], { expr = true })
+
+
+vim.keymap.set({ "n", "x" }, "gy", '"+y', { desc = "Copy to system clipboard" })
+vim.keymap.set("n", "gp", '"+p', { desc = "Paste from system clipboard" })
+vim.keymap.set("x", "gp", '"+P', { desc = "Paste from system clipboard" })
+vim.keymap.set(
+  "n",
+  "gV",
+  '"`[" . strpart(getregtype(), 0, 1) . "`]"',
+  { expr = true, replace_keycodes = false, desc = "Visually select changed text" }
+)
+vim.keymap.set("x", "g/", "<esc>/\\%V", { silent = false, desc = "Search inside visual selection" })
+vim.keymap.set("x", "*", [[y/\V<C-R>=escape(@", '/\')<CR><CR>]], { desc = "Search forward" })
+vim.keymap.set("x", "#", [[y?\V<C-R>=escape(@", '?\')<CR><CR>]], { desc = "Search backward" })
+
+vim.keymap.set("n", "<C-H>", "<C-w>h", { desc = "Focus on left window" })
+vim.keymap.set("n", "<C-J>", "<C-w>j", { desc = "Focus on below window" })
+vim.keymap.set("n", "<C-K>", "<C-w>k", { desc = "Focus on above window" })
+vim.keymap.set("n", "<C-L>", "<C-w>l", { desc = "Focus on right window" })
+vim.keymap.set("t", "<C-h>", "<C-\\><C-N><C-w>h")
+vim.keymap.set("t", "<C-j>", "<C-\\><C-N><C-w>j")
+vim.keymap.set("t", "<C-k>", "<C-\\><C-N><C-w>k")
+vim.keymap.set("t", "<C-l>", "<C-\\><C-N><C-w>l")
+
+vim.keymap.set(
+  "n",
+  "<C-Left>",
+  '"<Cmd>vertical resize -" . v:count1 . "<CR>"',
+  { expr = true, replace_keycodes = false, desc = "Decrease window width" }
+)
+vim.keymap.set(
+  "n",
+  "<C-Down>",
+  '"<Cmd>resize -"          . v:count1 . "<CR>"',
+  { expr = true, replace_keycodes = false, desc = "Decrease window height" }
+)
+vim.keymap.set(
+  "n",
+  "<C-Up>",
+  '"<Cmd>resize +"          . v:count1 . "<CR>"',
+  { expr = true, replace_keycodes = false, desc = "Increase window height" }
+)
+vim.keymap.set(
+  "n",
+  "<C-Right>",
+  '"<Cmd>vertical resize +" . v:count1 . "<CR>"',
+  { expr = true, replace_keycodes = false, desc = "Increase window width" }
+)
+
+vim.keymap.set("c", "<M-h>", "<Left>", { silent = false, desc = "Left" })
+vim.keymap.set("c", "<M-l>", "<Right>", { silent = false, desc = "Right" })
+
+vim.keymap.set("i", "<M-h>", "<Left>", { noremap = false, desc = "Left" })
+vim.keymap.set("i", "<M-j>", "<Down>", { noremap = false, desc = "Down" })
+vim.keymap.set("i", "<M-k>", "<Up>", { noremap = false, desc = "Up" })
+vim.keymap.set("i", "<M-l>", "<Right>", { noremap = false, desc = "Right" })
+
+vim.keymap.set("t", "<M-h>", "<Left>", { desc = "Left" })
+vim.keymap.set("t", "<M-j>", "<Down>", { desc = "Down" })
+vim.keymap.set("t", "<M-k>", "<Up>", { desc = "Up" })
+vim.keymap.set("t", "<M-l>", "<Right>", { desc = "Right" })
+
+vim.keymap.set("n", "<leader>mc", function()
+  local ts = vim.treesitter
+  if not ts or not ts.get_parser then
+    vim.notify("Treesitter is not available", vim.log.levels.ERROR)
+    return
   end
-  vim.cmd 'terminal'
-  vim.cmd 'startinsert'
-  vim.wo.number = false
-  vim.wo.relativenumber = false
-  if command then
-    vim.defer_fn(function()
-      vim.api.nvim_chan_send(vim.b.terminal_job_id, command .. '\n')
-    end, 600)
+
+  local parser = ts.get_parser(0)
+  if not parser then
+    vim.notify("No Treesitter parser found for this filetype", vim.log.levels.ERROR)
+    return
+  end
+
+  local tree = parser:parse()[1]
+  local root = tree:root()
+
+  local query = ts.query.get(parser:lang(), "highlights")
+  if not query then
+    vim.notify("No highlight query found for this filetype", vim.log.levels.ERROR)
+    return
+  end
+
+  local comments = {}
+  for id, node, _ in query:iter_captures(root, 0, 0, -1) do
+    local name = query.captures[id]
+    if name == "comment" then
+      table.insert(comments, node)
+    end
+  end
+
+  table.sort(comments, function(a, b)
+    return a:start() > b:start()
+  end)
+
+  local lines_to_check = {}
+  local shebang_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]
+  local has_shebang = shebang_line and shebang_line:match("^#!")
+
+  for _, node in ipairs(comments) do
+    local start_row, start_col, end_row, end_col = node:range()
+    if has_shebang and start_row == 0 then
+      goto continue
+    end
+    vim.api.nvim_buf_set_text(0, start_row, start_col, end_row, end_col, {})
+    for i = start_row, end_row do
+      lines_to_check[i] = true
+    end
+    ::continue::
+  end
+
+  local lines_deleted = 0
+  for line_num in pairs(lines_to_check) do
+    line_num = line_num - lines_deleted
+    local line = vim.api.nvim_buf_get_lines(0, line_num, line_num + 1, false)[1]
+    if line and line:match("^%s*$") then
+      vim.api.nvim_buf_set_lines(0, line_num, line_num + 1, false, {})
+      lines_deleted = lines_deleted + 1
+    end
+  end
+
+  vim.cmd "write"
+  vim.notify("All comments deleted")
+end, { noremap = true, silent = true, desc = "Delte all comments" })
+
+_G.put_empty_line = function(put_above)
+  if type(put_above) == 'boolean' then
+    vim.o.operatorfunc = 'v:lua.put_empty_line'
+    _G.put_empty_line_cache = { put_above = put_above }
+    return 'g@l'
+  end
+
+  local count = vim.v.count1
+  local cur_line = vim.fn.line('.')
+  local target_line = cur_line - (_G.put_empty_line_cache.put_above and 1 or 0)
+
+  vim.fn.append(target_line, vim.fn['repeat']({ '' }, count))
+
+  if count == 1 then
+    local new_cursor_line = cur_line + (_G.put_empty_line_cache.put_above and 0 or 1)
+    vim.api.nvim_win_set_cursor(0, { new_cursor_line, 0 })
   end
 end
 
-vim.keymap.set('n', '<leader>t', function()
-  open_terminal('vsplit', 60)
-end, { silent = true, desc = 'Vertical terminal' })
-vim.keymap.set('n', '<leader>T', function()
-  open_terminal('split', 10)
-end, { silent = true, desc = 'Horizontal terminal' })
-vim.keymap.set('n', '<leader>p', function()
-  open_terminal('vsplit', 65, 'compiler ' .. vim.fn.expand '%:p')
-end, { silent = true, desc = 'Run compiler script' })
+vim.keymap.set('n', 'gO', function() return _G.put_empty_line(true) end,
+  { expr = true, desc = 'Insert empty line above' })
+vim.keymap.set('n', 'go', function() return _G.put_empty_line(false) end,
+  { expr = true, desc = 'Insert empty line below' })
 
-vim.keymap.set('i', '<A-Down>', '<C-\\><C-N><C-w>j')
-vim.keymap.set('i', '<A-Left>', '<C-\\><C-N><C-w>h')
-vim.keymap.set('i', '<A-Right>', '<C-\\><C-N><C-w>l')
-vim.keymap.set('i', '<A-Up>', '<C-\\><C-N><C-w>k')
-vim.keymap.set('i', '<A-j>', '<Esc>:m .+1<CR>==gi')
-vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>==gi')
-vim.keymap.set('i', '<C-;>', '<Esc>miA;<Esc>`ii')
-vim.keymap.set('i', '<C-t>', '<Esc>b~lea')
-vim.keymap.set('i', '<C-u>', '<Esc>viwUea')
-vim.keymap.set('n', '<A-;>', '<Esc>miA;<Esc>`i')
-vim.keymap.set('n', '<A-h>', ':split<CR>', { silent = true })
-vim.keymap.set('n', '<A-v>', ':vsplit<CR>', { silent = true })
-vim.keymap.set('n', '<A-w>', ':bd<CR>', { silent = true })
-vim.keymap.set('n', '<C-Down>', ':resize -2<CR>', { silent = true })
-vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', { silent = true })
-vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', { silent = true })
-vim.keymap.set('n', '<C-Up>', ':resize +2<CR>', { silent = true })
-vim.keymap.set('n', '<C-d>', '<C-d>zz')
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-u>', '<C-u>zz')
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-vim.keymap.set('n', '<leader>cg', ':setlocal spell! spelllang=en_us<CR>', { desc = 'Spellcheck', silent = true })
-vim.keymap.set('n', '<leader>cx', '<cmd>!chmod +x %<CR>', { desc = 'chmod +x' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-vim.keymap.set('n', '<leader>sa', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gIc<Left><Left><Left><Left>]], { desc = 'Replace All' })
-vim.keymap.set('n', 'J', 'mzJ`z')
-vim.keymap.set('n', 'N', 'Nzzzv')
-vim.keymap.set('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
-vim.keymap.set('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
-vim.keymap.set('n', 'gl', ':lua vim.diagnostic.open_float()<cr>')
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'n', 'nzzzv')
-vim.keymap.set('t', '<C-h>', '<C-\\><C-N><C-w>h')
-vim.keymap.set('t', '<C-j>', '<C-\\><C-N><C-w>j')
-vim.keymap.set('t', '<C-k>', '<C-\\><C-N><C-w>k')
-vim.keymap.set('t', '<C-l>', '<C-\\><C-N><C-w>l')
-vim.keymap.set('v', '<', '<gv^')
-vim.keymap.set('v', '>', '>gv^')
-vim.keymap.set('x', '<leader>h', [["ay:!dmenuhandler '<C-r>a'<cr>]])
-vim.keymap.set('x', 'J', ":m '>+1<cr>gv=gv")
-vim.keymap.set('x', 'K', ":m '<-2<cr>gv=gv")
-vim.keymap.set('x', 'p', 'p:let @+=@0<CR>:let @"=@0<CR>', { silent = true })
-vim.keymap.set({ 'x', 'v', 'n' }, '<A-j>', ':m .+1<cr>==')
-vim.keymap.set({ 'x', 'v', 'n' }, '<A-k>', ':m .-2<cr>==')
-
--- vim: ts=2 sts=2 sw=2 et
+vim.keymap.set("n", "<leader>mb",
+  function()
+    local handle = io.popen("bullshit")
+    if not handle then
+      print("Failed to execute 'bullshit' command.")
+      return
+    end
+    local bullshit = handle:read("*a")
+    handle:close()
+    if not bullshit then
+      print("Failed to read output from 'bullshit' command.")
+      return
+    end
+    bullshit = bullshit:gsub("%s+", "")
+    vim.api.nvim_put({ bullshit }, "", true, true)
+  end,
+  { desc = "Bullshit Generator", noremap = true, silent = true }
+)

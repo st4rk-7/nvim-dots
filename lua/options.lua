@@ -1,34 +1,31 @@
--- [[ Setting options ]]
-
 vim.g.neovide_padding_bottom = 0
 vim.g.neovide_padding_left = 10
 vim.g.neovide_padding_right = 10
 vim.g.neovide_padding_top = 5
 vim.opt.autochdir = true
-vim.opt.autoindent = true
-vim.opt.autowrite = true
+vim.opt.backup = false
 vim.opt.breakindent = true
-vim.opt.cursorline = false
+vim.opt.completeopt = "menuone,noinsert,noselect"
+-- vim.opt.cmdheight = 0
 vim.opt.expandtab = true
-vim.opt.guifont = 'JetBrainsMono NF:h9'
-vim.opt.hlsearch = false
+vim.opt.formatoptions = "qjl1"
 vim.opt.ignorecase = true
-vim.opt.inccommand = 'nosplit'
 vim.opt.incsearch = true
+vim.opt.infercase = true
 vim.opt.laststatus = 3
-vim.opt.mouse = 'a'
+vim.opt.linebreak = true
+vim.opt.list = true
+vim.opt.listchars = "tab:> ,extends:…,precedes:…,nbsp:␣"
+vim.opt.mouse = "a"
 vim.opt.number = true
-vim.opt.numberwidth = 2
-vim.opt.pumblend = 20
+vim.opt.pumblend = 10
 vim.opt.pumheight = 10
-vim.opt.relativenumber = true
+vim.opt.ruler = false
 vim.opt.scrolloff = 10
 vim.opt.shiftwidth = 2
-vim.opt.shortmess = 'atTWAI'
-vim.opt.showmatch = true
+vim.opt.shortmess:append("Wc")
 vim.opt.showmode = false
-vim.opt.sidescrolloff = 8
-vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = "yes"
 vim.opt.smartcase = true
 vim.opt.smartindent = true
 vim.opt.smarttab = true
@@ -41,29 +38,34 @@ vim.opt.termguicolors = true
 vim.opt.timeoutlen = 300
 vim.opt.undofile = true
 vim.opt.updatetime = 250
-vim.opt.virtualedit = 'block'
-vim.opt.wrap = false
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
-vim.diagnostic.config {
+vim.opt.virtualedit = "block"
+-- vim.opt.winblend = 5
+vim.opt.wrap = true
+vim.opt.writebackup = false
+vim.cmd("hi Comment gui=italic cterm=italic")
+vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { link = "Comment" })
+vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { link = "Comment" })
+vim.api.nvim_set_hl(0, "DiagnosticVirtualTextInfo", { link = "Comment" })
+vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn", { link = "Comment" })
+vim.diagnostic.config({
   underline = false,
   virtual_text = true,
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = '',
-      [vim.diagnostic.severity.HINT] = '󰌵',
-      [vim.diagnostic.severity.INFO] = '',
-      [vim.diagnostic.severity.WARN] = '',
-    },
-  },
   update_in_insert = false,
   severity_sort = true,
-}
-vim.cmd 'hi Comment gui=italic cterm=italic'
-vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextError', { link = 'Comment' })
-vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextHint', { link = 'Comment' })
-vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextInfo', { link = 'Comment' })
-vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextWarn', { link = 'Comment' })
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.HINT] = "",
+      [vim.diagnostic.severity.INFO] = "",
+      [vim.diagnostic.severity.WARN] = "",
+    },
+  },
+})
 
--- vim: ts=2 sts=2 sw=2 et
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldenable = true
+vim.cmd([[set foldmethod=expr]])
+vim.cmd([[set foldexpr=nvim_treesitter#foldexpr()]])
+
+vim.filetype.add({ extension = { qalc = "qalculate" } })
