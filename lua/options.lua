@@ -1,3 +1,11 @@
+vim.schedule(function()
+  vim.opt.clipboard = 'unnamedplus'
+end)
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_python_provider = 0
+vim.g.loaded_ruby_provider = 0
 vim.g.neovide_padding_bottom = 0
 vim.g.neovide_padding_left = 10
 vim.g.neovide_padding_right = 10
@@ -5,8 +13,8 @@ vim.g.neovide_padding_top = 5
 vim.opt.autochdir = true
 vim.opt.backup = false
 vim.opt.breakindent = true
-vim.opt.completeopt = "menuone,noinsert,noselect"
 -- vim.opt.cmdheight = 0
+vim.opt.completeopt = "menuone,noinsert,noselect"
 vim.opt.expandtab = true
 vim.opt.formatoptions = "qjl1"
 vim.opt.ignorecase = true

@@ -7,20 +7,16 @@ return {
     opts = {
       ensure_installed = {
         "bash",
-        "c",
         "cpp",
         "diff",
         "html",
+        "css",
+        "make",
         "json",
-        "lua",
         "luadoc",
-        "markdown",
-        "markdown_inline",
-        "query",
         "regex",
-        "vim",
-        "vimdoc",
         "yaml",
+        "python"
       },
       auto_install = true,
       highlight = {
