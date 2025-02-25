@@ -1,20 +1,19 @@
 return {
   "neovim/nvim-lspconfig",
   cmd = { "LspInfo", "LspInstall", "LspStart" },
-  -- dependencies = { 'saghen/blink.cmp' },
   event = { "BufReadPost", "BufNewFile" },
   opts = {
     servers = {
-      lua_ls = {},       -- pacman: lua-language-server
-      clangd = {},       -- pacman: clang
-      bashls = {},       -- pacman: bash-language-server
-      marksman = {},     -- pacman: marksman
-      ruff = {},         -- pacman: ruff
-      basedpyright = {}, -- AUR: basedpyright
-      jsonls = {},       -- AUR: vscode-langservers-extracted
-      cssls = {},        -- AUR: vscode-langservers-extracted
-      eslint = {},       -- AUR: vscode-langservers-extracted
-      html = {},         -- AUR: vscode-langservers-extracted
+      lua_ls = {},   -- pacman: lua-language-server
+      clangd = {},   -- pacman: clang
+      bashls = {},   -- pacman: bash-language-server
+      marksman = {}, -- pacman: marksman
+      ruff = {},     -- pacman: ruff
+      pyright = {},  -- pacman: pyright
+      jsonls = {},   -- AUR: vscode-langservers-extracted
+      cssls = {},    -- AUR: vscode-langservers-extracted
+      eslint = {},   -- AUR: vscode-langservers-extracted
+      html = {},     -- AUR: vscode-langservers-extracted
     }
   },
   config = function(_, opts)

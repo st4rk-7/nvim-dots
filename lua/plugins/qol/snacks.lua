@@ -42,7 +42,7 @@ return {
       },
       lazygit = {},
       words = {},
-      scroll = { enabled = true },
+      scroll = { enabled = false },
       -- statuscolumn = { enabled = true },
       zen = {
         win = {
