@@ -14,8 +14,8 @@ return {
   },
   opts = {
     formatters_by_ft = {
-      markdown = { "prettier" },
-      html = { "prettier" },
+      sh = { "shfmt" },             -- pacman: shfmt
+      html = { "prettier" },        -- pacman: prettier
       css = { "prettier" },
       javascript = { "prettier" },
     },

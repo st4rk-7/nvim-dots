@@ -1,23 +1,39 @@
 return {
   {
+    "saghen/blink.compat",
+    version = '*',
+    lazy = true,
+    opts = {}
+  },
+  {
     "saghen/blink.cmp",
-    dependencies = { "rafamadriz/friendly-snippets" },
-    event = "VeryLazy",
     version = "v0.*",
+    event = "InsertEnter",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+      "hrsh7th/cmp-calc",
+      "micangl/cmp-vimtex",
+      "jc-doyle/cmp-pandoc-references",
+    },
     opts = {
-      keymap = { preset = "enter" },
+      appearance = { use_nvim_cmp_as_default = false, nerd_font_variant = "normal" },
       completion = {
-        trigger = { show_on_insert_on_trigger_character = false, },
         accept = { auto_brackets = { enabled = true } },
+        menu = { border = 'single', draw = { treesitter = { "lsp" } } },
         documentation = { auto_show = true, auto_show_delay_ms = 200, window = { border = 'single' } },
-        ghost_text = { enabled = vim.g.ai_cmp },
-        menu = { border = 'single' },
+        -- ghost_text = { enabled = true },
       },
+      signature = { enabled = true },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        providers = {
+          calc = { name = "calc", module = 'blink.compat.source', opts = {} },
+          vimtex = { name = "vimtex", module = 'blink.compat.source', opts = {} },
+          pandoc_references = { name = "pandoc_references", module = 'blink.compat.source', opts = {} },
+        },
+        default = { "lsp", "path", "snippets", "buffer", "calc", "vimtex", "pandoc_references" },
       },
       cmdline = { enabled = false },
-      signature = { enabled = true, window = { border = 'single' } }
+      keymap = { preset = "enter", ["<C-y>"] = { "select_and_accept" } },
     },
-  },
+  }
 }

@@ -103,37 +103,6 @@ for _, cmd in ipairs(typos) do
     vim.api.nvim_cmd({
       cmd = cmd:lower(),
       bang = opts.bang,
-      -- mods = { noautocmd = true },
     }, {})
   end, { bang = true })
 end
-
--- autoformat on save
--- vim.api.nvim_create_autocmd("LspAttach", {
---   callback = function(args)
---     local client = vim.lsp.get_client_by_id(args.data.client_id)
---     if not client then
---       return
---     end
---     if client.supports_method("textDocument/formatting") then
---       vim.api.nvim_buf_set_var(args.buf, "autoformat_enabled", true)
---       vim.api.nvim_create_autocmd("BufWritePre", {
---         buffer = args.buf,
---         callback = function()
---           if vim.b.autoformat_enabled then
---             vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
---           end
---         end,
---       })
---     end
---   end,
--- })
-
-
--- vim.api.nvim_create_autocmd("VimEnter", {
---     command = ":silent !dynamic-term-padding nvim",
--- })
---
--- vim.api.nvim_create_autocmd("VimLeavePre", {
---     command = ":silent !dynamic-term-padding default",
--- })
