@@ -10,7 +10,6 @@ return {
     version = "v0.*",
     event = "InsertEnter",
     dependencies = {
-      "rafamadriz/friendly-snippets",
       "hrsh7th/cmp-calc",
       "micangl/cmp-vimtex",
       "jc-doyle/cmp-pandoc-references",

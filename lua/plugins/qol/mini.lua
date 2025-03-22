@@ -2,14 +2,11 @@ return {
   "echasnovski/mini.nvim",
   event = "VeryLazy",
   config = function()
-    require("mini.icons").setup()
-    require("mini.move").setup()
-    require("mini.diff").setup()
-    require("mini.git").setup()
-    require("mini.comment").setup()
-    require("mini.bracketed").setup()
-    require("mini.jump").setup()
-    require("mini.sessions").setup()
+
+    local standard_plugins = { "icons", "move", "diff", "git", "comment", "bracketed", "jump", "sessions" }
+    for _, plugin in ipairs(standard_plugins) do
+      require("mini." .. plugin).setup()
+    end
 
     local diag_signs = { ERROR = ' ', WARN = ' ', INFO = ' ', HINT = '󰌵 ' }
     require('mini.statusline').setup({
@@ -20,7 +17,7 @@ return {
           local filename      = vim.fn.expand('%:t')
           local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
           local git           = MiniStatusline.section_git({ trunc_width = 40 })
-      local location = string.format('%2d:%-2d', vim.fn.line('.'), vim.fn.col('.'))
+          local location      = string.format('%2d:%-2d', vim.fn.line('.'), vim.fn.col('.'))
           local search        = MiniStatusline.section_searchcount({ trunc_width = 75 })
           return MiniStatusline.combine_groups({
             { hl = mode_hl,                 strings = { mode } },

@@ -17,8 +17,196 @@
         "path": "./global.json"
       },
       {
+        "language": [
+          "license"
+        ],
+        "path": "./license.json"
+      },
+      {
+        "language": "c",
+        "path": "./c/c.json"
+      },
+      {
+        "language": "cdoc",
+        "path": "./c/cdoc.json"
+      },
+      {
         "language": "cpp",
-        "path": "./cpp.json"
+        "path": "./cpp/cpp.json"
+      },
+      {
+        "language": "cppdoc",
+        "path": "./cpp/cppdoc.json"
+      },
+      {
+        "language": "editorconfig",
+        "path": "./editorconfig.json"
+      },
+      {
+        "language": [
+          "gitcommit",
+          "NeogitCommitMessage"
+        ],
+        "path": "./gitcommit.json"
+      },
+      {
+        "language": "lua",
+        "path": "./lua/lua.json"
+      },
+      {
+        "language": "luadoc",
+        "path": "./lua/luadoc.json"
+      },
+      {
+        "language": [
+          "shellscript",
+          "shell",
+          "sh",
+          "zsh"
+        ],
+        "path": "./shell/shell.json"
+      },
+      {
+        "language": "shelldoc",
+        "path": "./shell/shelldoc.json"
+      },
+      {
+        "language": [
+          "markdown",
+          "rmd"
+        ],
+        "path": "./markdown.json"
+      },
+      {
+        "language": [
+          "plaintex",
+          "markdown",
+          "tex"
+        ],
+        "path": "./latex.json"
+      },
+      {
+        "language": [
+          "html",
+          "jade",
+          "pug",
+          "eruby",
+          "javascriptreact",
+          "htmldjango",
+          "astro",
+          "blade"
+        ],
+        "path": "./html.json"
+      },
+      {
+        "language": [
+          "css",
+          "scss",
+          "sass",
+          "less",
+          "stylus"
+        ],
+        "path": "./css.json"
+      },
+      {
+        "language": [
+          "javascript",
+          "javascriptreact",
+          "vue",
+          "svelte"
+        ],
+        "path": "./javascript/javascript.json"
+      },
+      {
+        "language": "jsdoc",
+        "path": "./javascript/jsdoc.json"
+      },
+      {
+        "language": "tsdoc",
+        "path": "./javascript/tsdoc.json"
+      },
+      {
+        "language": [
+          "typescript",
+          "typescriptreact"
+        ],
+        "path": "./javascript/typescript.json"
+      },
+      {
+        "language": "javascriptreact",
+        "path": "./javascript/next.json"
+      },
+      {
+        "language": "typescriptreact",
+        "path": "./javascript/react-ts.json"
+      },
+      {
+        "language": "typescriptreact",
+        "path": "./javascript/next-ts.json"
+      },
+      {
+        "language": "javascriptreact",
+        "path": "./javascript/react.json"
+      },
+      {
+        "language": "javascriptreact",
+        "path": "./javascript/react-native.json"
+      },
+      {
+        "language": "typescriptreact",
+        "path": "./javascript/react-native-ts.json"
+      },
+      {
+        "language": [
+          "javascriptreact",
+          "typescriptreact"
+        ],
+        "path": "./javascript/react-es7.json"
+      },
+      {
+        "language": "python",
+        "path": "./python/python.json"
+      },
+      {
+        "language": "python",
+        "path": "./python/comprehension.json"
+      },
+      {
+        "language": "python",
+        "path": "./python/unittest.json"
+      },
+      {
+        "language": "python",
+        "path": "./python/debug.json"
+      },
+      {
+        "language": "pydoc",
+        "path": "./python/pydoc.json"
+      },
+      {
+        "language": [
+          "plaintex",
+          "tex"
+        ],
+        "path": "./latex/latex-snippets.json"
+      },
+      {
+        "language": [
+          "plaintex",
+          "tex"
+        ],
+        "path": "./latex/vscode-latex-snippets.json"
+      },
+      {
+        "language": [
+          "bibtex",
+          "bib"
+        ],
+        "path": "./latex/bibtex.json"
+      },
+      {
+        "language": "make",
+        "path": "./make.json"
       }
     ]
   }

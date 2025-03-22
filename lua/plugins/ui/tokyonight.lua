@@ -20,12 +20,12 @@ return {
       vim.cmd.colorscheme("tokyonight-night")
     end,
   },
-  {
-    "slugbyte/lackluster.nvim",
-    lazy = false,
-    priority = 1000,
-    init = function()
-      vim.cmd.colorscheme("lackluster-hack")
-    end,
-  },
+  -- {
+  --   "slugbyte/lackluster.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   init = function()
+  --     vim.cmd.colorscheme("lackluster-hack")
+  --   end,
+  -- },
 }

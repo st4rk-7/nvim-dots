@@ -1,6 +1,6 @@
 return {
   "stevearc/conform.nvim",
-  cmd = { "ConformInfo" },
+  event = "VeryLazy",
   keys = {
     {
       "--",
@@ -14,8 +14,9 @@ return {
   },
   opts = {
     formatters_by_ft = {
-      sh = { "shfmt" },             -- pacman: shfmt
-      html = { "prettier" },        -- pacman: prettier
+      markdown = { "prettier" },
+      sh = { "shfmt" },      -- pacman: shfmt
+      html = { "prettier" }, -- pacman: prettier
       css = { "prettier" },
       javascript = { "prettier" },
     },

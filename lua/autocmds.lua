@@ -106,3 +106,10 @@ for _, cmd in ipairs(typos) do
     }, {})
   end, { bang = true })
 end
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = {
+    "LICENSE", "LICENSE.*", "COPYING", "COPYING.*", "LICENSE.txt", "LICENSE.md"
+  },
+  command = "set filetype=license"
+})

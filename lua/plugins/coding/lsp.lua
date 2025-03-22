@@ -13,6 +13,12 @@ return {
       cssls = {},   -- AUR: vscode-langservers-extracted
       eslint = {},  -- AUR: vscode-langservers-extracted
       html = {},    -- AUR: vscode-langservers-extracted
+      tinymist = {  -- pacman: tinymist
+        settings = {
+          formatterMode = "typstyle",
+          exportPdf = "onType",
+        }
+      }
     }
   },
   config = function(_, opts)
