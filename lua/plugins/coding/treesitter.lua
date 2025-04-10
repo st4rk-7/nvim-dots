@@ -5,19 +5,7 @@ return {
     build = ":TSUpdate",
     main = "nvim-treesitter.configs",
     opts = {
-      ensure_installed = {
-        "bash",
-        "cpp",
-        "diff",
-        "html",
-        "css",
-        "make",
-        "json",
-        "luadoc",
-        "regex",
-        "yaml",
-        "python"
-      },
+      ensure_installed = { "bash", "cpp", "diff", "html", "css", "make", "json", "luadoc", "regex", "yaml", "python" },
       auto_install = true,
       highlight = {
         enable = true,

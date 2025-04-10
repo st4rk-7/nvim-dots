@@ -14,9 +14,7 @@ return {
     for k, v in pairs(opts) do
       leap.opts[k] = v
     end
-    vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward)')
-    vim.keymap.set({ 'n', 'x', 'o' }, 'S', '<Plug>(leap-backward)')
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gS', '<Plug>(leap-from-window)')
+    leap.set_default_mappings()
     vim.keymap.set({ "n", "x", "o" }, "ga", function()
       require("leap.treesitter").select()
     end)

@@ -1,12 +1,15 @@
 return {
   "echasnovski/mini.nvim",
-  event = "VeryLazy",
   config = function()
-
-    local standard_plugins = { "icons", "move", "diff", "git", "comment", "bracketed", "jump", "sessions" }
+    local standard_plugins = { "icons", "move", "git", "comment", "bracketed", "jump", "sessions", "misc" }
     for _, plugin in ipairs(standard_plugins) do
       require("mini." .. plugin).setup()
     end
+
+    require("mini.diff").setup({ view = { style = 'number' } })
+
+    MiniMisc.setup_termbg_sync()
+    MiniMisc.setup_restore_cursor()
 
     local diag_signs = { ERROR = ' ', WARN = ' ', INFO = ' ', HINT = '󰌵 ' }
     require('mini.statusline').setup({

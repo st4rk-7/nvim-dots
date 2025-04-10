@@ -57,7 +57,8 @@ vim.api.nvim_set_hl(0, "DiagnosticVirtualTextInfo", { link = "Comment" })
 vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn", { link = "Comment" })
 vim.diagnostic.config({
   underline = false,
-  virtual_text = true,
+  virtual_text = { current_line = true, severity = { min = "INFO", max = "WARN" } },
+  virtual_lines = { current_line = true, severity = { min = "ERROR" } },
   update_in_insert = false,
   severity_sort = true,
   signs = {
@@ -70,10 +71,5 @@ vim.diagnostic.config({
   },
 })
 
-vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 99
-vim.opt.foldenable = true
-vim.cmd([[set foldmethod=expr]])
-vim.cmd([[set foldexpr=nvim_treesitter#foldexpr()]])
 
 vim.filetype.add({ extension = { qalc = "qalculate" } })

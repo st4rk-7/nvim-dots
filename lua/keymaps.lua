@@ -6,10 +6,6 @@ vim.keymap.set("c", "<space>", function()
   end
 end, { expr = true })
 
-vim.keymap.set("n", "--", function()
-  vim.lsp.buf.format()
-  vim.cmd "write"
-end, { silent = true, desc = "LSP Format" })
 vim.keymap.set("n", "-n", vim.lsp.buf.rename, { desc = "LSP Rename" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<leader>s", [[:%s/<C-r><C-w>//gIc<Left><Left><Left><Left>]], { desc = "Replace Word" })
@@ -76,7 +72,7 @@ vim.keymap.set("i", "<M-h>", "<Left>", { noremap = false, desc = "Left" })
 vim.keymap.set("i", "<M-j>", "<Down>", { noremap = false, desc = "Down" })
 vim.keymap.set("i", "<M-k>", "<Up>", { noremap = false, desc = "Up" })
 vim.keymap.set("i", "<M-l>", "<Right>", { noremap = false, desc = "Right" })
-vim.api.nvim_set_keymap( "i", "<C-l>", "<C-g>u<Esc>[s1z=`]a<C-g>u", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("i", "<C-l>", "<C-g>u<Esc>[s1z=`]a<C-g>u", { noremap = true, silent = true })
 
 vim.keymap.set("t", "<M-h>", "<Left>", { desc = "Left" })
 vim.keymap.set("t", "<M-j>", "<Down>", { desc = "Down" })
@@ -189,3 +185,14 @@ vim.keymap.set("n", "<leader>mb",
   end,
   { desc = "Bullshit Generator", noremap = true, silent = true }
 )
+
+vim.keymap.set('n', '\\k', function()
+  vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = false })
+  vim.api.nvim_create_autocmd('CursorMoved', {
+    group = vim.api.nvim_create_augroup('line-diagnostics', { clear = true }),
+    callback = function()
+      vim.diagnostic.config({ virtual_lines = false, virtual_text = true })
+      return true
+    end,
+  })
+end, { desc = "Toggle Virtuallines" })
