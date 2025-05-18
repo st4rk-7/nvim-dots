@@ -19,7 +19,7 @@ return {
           keys = {
             { icon = ' ', key = 'r', desc = 'Recent Files', action = ":lua Snacks.dashboard.pick('oldfiles')" },
             { icon = '󰈙 ', key = 'e', desc = 'New File', action = ':ene | startinsert' },
-            { icon = '󰂺 ', key = 'n', desc = 'Notes', action = ":lua Snacks.dashboard.pick('files', {cwd = [[~/notes]]})" },
+            { icon = '󰂺 ', key = 'n', desc = 'Notes', action = ":lua Snacks.dashboard.pick('files', {cwd = [[~/Notes]]})" },
             { icon = ' ', key = 'c', desc = 'Config', action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
             { icon = '󰒲 ', key = 'z', desc = 'Lazy', action = ':Lazy', enabled = package.loaded.lazy ~= nil },
             { icon = ' ', key = 'q', desc = 'Quit', action = ':qa' },
