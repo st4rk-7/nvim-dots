@@ -1,13 +1,14 @@
 return {
   {
     "saghen/blink.compat",
+    -- use a release tag to download pre-built binaries
     version = '*',
     lazy = true,
     opts = {}
   },
   {
     "saghen/blink.cmp",
-    version = "v0.*",
+    version = "1.*",
     event = "InsertEnter",
     dependencies = {
       "hrsh7th/cmp-calc",
