@@ -3,7 +3,7 @@ return {
   event = "VeryLazy",
   config = function()
     require("fzf-lua").setup {
-      "borderless_full",
+      "ivy",
       fzf_colors = true,
       fzf_opts = { ["--no-scrollbar"] = true },
       previewers = {
@@ -24,7 +24,7 @@ return {
       if type == "r" then
         args = { resume = true }
       elseif type == "j" then
-        args = { jump_to_single_result = true }
+        args = { jump1 = true }
       end
       vim.keymap.set('n', key, function()
         require("fzf-lua")[method](args)
