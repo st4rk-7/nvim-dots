@@ -72,7 +72,7 @@ vim.keymap.set("i", "<M-h>", "<Left>", { noremap = false, desc = "Left" })
 vim.keymap.set("i", "<M-j>", "<Down>", { noremap = false, desc = "Down" })
 vim.keymap.set("i", "<M-k>", "<Up>", { noremap = false, desc = "Up" })
 vim.keymap.set("i", "<M-l>", "<Right>", { noremap = false, desc = "Right" })
-vim.api.nvim_set_keymap("i", "<C-l>", "<C-g>u<Esc>[s1z=`]a<C-g>u", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("i", "<C-l>", "<C-g>u<Esc>[s1z=`]a<C-g>u", { noremap = true, silent = true, desc = "Correct Last Spelling Mistake in Insert mode" })
 
 vim.keymap.set("t", "<M-h>", "<Left>", { desc = "Left" })
 vim.keymap.set("t", "<M-j>", "<Down>", { desc = "Down" })
