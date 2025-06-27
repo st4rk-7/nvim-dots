@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
   group = vim.api.nvim_create_augroup("custom_filemanager_ifDirectory", { clear = true }),
 })
 
-vim.api.nvim_create_autocmd({ "VimLeave" }, {
+vim.api.nvim_create_autocmd("VimLeave", {
   pattern = "*",
   callback = function()
     vim.cmd("set guicursor=a:hor20-blinkon500-blinkoff500-blinkwait700")
@@ -40,7 +40,7 @@ vim.api.nvim_create_autocmd({ "VimLeave" }, {
   group = vim.api.nvim_create_augroup("RestoreCursor", { clear = true }),
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*" },
   callback = function()
     if vim.b.remove_trails_enabled == false then
@@ -54,7 +54,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   group = vim.api.nvim_create_augroup("RemoveTrailingWhitespaces", { clear = true }),
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.fn.resolve(vim.fn.expand("~/.config/x11/xresources")),
   callback = function()
     vim.cmd([[!xrdb % ; killall -USR1 st ; renew-dwm]])
@@ -71,7 +71,7 @@ vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("wrap_spell", { clear = true }),
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function(event)
     if event.match:match("^%w%w+:[\\/][\\/]") then
       return
