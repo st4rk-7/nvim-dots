@@ -19,6 +19,9 @@ return {
         },
       },
     }
+
+    require("fzf-lua").register_ui_select()
+
     local function map(key, method, type)
       local args = {}
       if type == "r" then

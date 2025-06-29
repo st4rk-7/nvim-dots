@@ -1,6 +1,7 @@
 -- using lazy.nvim
 return {
   "S1M0N38/love2d.nvim",
+  enabled = false,
   cmd = "LoveRun",
   opts = {},
   keys = {
