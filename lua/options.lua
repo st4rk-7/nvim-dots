@@ -73,3 +73,10 @@ vim.diagnostic.config({
 
 
 vim.filetype.add({ extension = { qalc = "qalculate" } })
+
+vim.o.foldmethod = "expr"
+vim.opt.foldenable = true
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldcolumn = "0"

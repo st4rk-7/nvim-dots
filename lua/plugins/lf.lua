@@ -10,7 +10,7 @@ return {
     file_manager = "lf",
     replace_netrw = true,
     ui = {
-      border = "solid",
+      border = "single",
       height = 0.5,
       width = 0.6,
       x = 0,
