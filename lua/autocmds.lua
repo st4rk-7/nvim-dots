@@ -22,16 +22,6 @@ vim.api.nvim_create_autocmd("FocusGained", {
   group = vim.api.nvim_create_augroup("UpdateOnFocus", { clear = true }),
 })
 
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function(data)
-    local directory = vim.fn.isdirectory(data.file) == 1
-    if directory then
-      require("tfm").open()
-    end
-  end,
-  group = vim.api.nvim_create_augroup("custom_filemanager_ifDirectory", { clear = true }),
-})
-
 vim.api.nvim_create_autocmd("VimLeave", {
   pattern = "*",
   callback = function()
@@ -57,7 +47,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.fn.resolve(vim.fn.expand("~/.config/x11/xresources")),
   callback = function()
-    vim.cmd([[!xrdb % ; killall -USR1 st ; renew-dwm]])
+    vim.cmd([[!xrdb %; killall -USR1 st; kitty_colors; renew-dwm]])
   end,
   group = vim.api.nvim_create_augroup("ReloadXresources", { clear = true }),
 })
