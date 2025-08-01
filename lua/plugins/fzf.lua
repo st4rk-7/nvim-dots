@@ -3,9 +3,9 @@ return {
   event = "VeryLazy",
   config = function()
     require("fzf-lua").setup {
-      "ivy",
+      -- "ivy",
       fzf_colors = true,
-      fzf_opts = { ["--no-scrollbar"] = true },
+      -- fzf_opts = { ["--no-scrollbar"] = true },
       previewers = {
         builtin = {
           syntax_limit_b = 1024 * 100, -- 100KB

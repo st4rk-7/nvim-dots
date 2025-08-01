@@ -21,7 +21,7 @@ return {
         accept = { auto_brackets = { enabled = true } },
         menu = { border = 'single', draw = { treesitter = { "lsp" } } },
         documentation = { auto_show = true, auto_show_delay_ms = 200, window = { border = 'single' } },
-        -- ghost_text = { enabled = true },
+        ghost_text = { enabled = true },
       },
       signature = { enabled = true },
       sources = {
@@ -32,8 +32,8 @@ return {
         },
         default = { "lsp", "path", "snippets", "buffer", "calc", "vimtex", "pandoc_references" },
       },
-      cmdline = { enabled = false },
-      keymap = { preset = "enter", ["<C-y>"] = { "select_and_accept" } },
+      -- cmdline = { enabled = false },
+      -- keymap = { preset = "enter", ["<C-y>"] = { "select_and_accept" } },
     },
   }
 }
