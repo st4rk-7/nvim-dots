@@ -4,15 +4,16 @@ return {
   event = { "BufReadPost", "BufNewFile" },
   opts = {
     servers = {
-      lua_ls = {},  -- pacman: lua-language-server
-      clangd = {},  -- pacman: clang
-      bashls = {},  -- pacman: bash-language-server
-      ruff = {},    -- pacman: ruff
-      pyright = {}, -- pacman: pyright
-      jsonls = {},  -- AUR: vscode-langservers-extracted
-      cssls = {},   -- AUR: vscode-langservers-extracted
-      eslint = {},  -- AUR: vscode-langservers-extracted
-      html = {},    -- AUR: vscode-langservers-extracted
+      lua_ls = {},   -- pacman: lua-language-server
+      clangd = {},   -- pacman: clang
+      bashls = {},   -- pacman: bash-language-server
+      ruff = {},     -- pacman: ruff
+      pyright = {},  -- pacman: pyright
+      tinymist = {}, -- pacman: tinymist
+      jsonls = {},   -- AUR: vscode-langservers-extracted
+      cssls = {},    -- AUR: vscode-langservers-extracted
+      eslint = {},   -- AUR: vscode-langservers-extracted
+      html = {},     -- AUR: vscode-langservers-extracted
     }
   },
   config = function(_, opts)
